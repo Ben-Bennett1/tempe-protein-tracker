@@ -2,88 +2,203 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tempe Protein Tracker</title>
-  <meta name="description" content="See how much more protein you need today when eating DoorDash and Grubhub food near ASU in Tempe.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Protein Devil</title>
+  <meta name="description" content="Track how much more protein you need today when you're ordering DoorDash and Grubhub near ASU in Tempe.">
+  <meta name="theme-color" content="#8c1d40">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Protein Devil">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Tempe Protein Tracker</h1>
-    <p class="sub">DoorDash &amp; Grubhub spots near ASU</p>
-  </header>
-
-  <main>
-    <section class="card summary" aria-live="polite">
-      <div class="ring" id="ring"><span id="ring-pct">0%</span></div>
+  <div class="app">
+    <header class="topbar">
       <div>
-        <p class="big"><span id="remaining">0</span> g to go</p>
-        <p class="muted"><span id="eaten">0</span> g eaten of <span id="target">0</span> g target today</p>
+        <p class="eyebrow" id="today-label">Today</p>
+        <h1 id="view-title">Today</h1>
+      </div>
+      <span class="streak" id="streak" hidden></span>
+    </header>
+
+    <!-- TODAY -->
+    <section class="view" id="view-today" data-title="Today">
+      <div class="hero card">
+        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-track" cx="60" cy="60" r="52"></circle>
+          <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="52"></circle>
+        </svg>
+        <div class="hero-center">
+          <span class="hero-num" id="remaining">0</span>
+          <span class="hero-unit" id="remaining-label">g to go</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="stat-num" id="eaten">0</span><span class="stat-label">eaten</span></div>
+        <div class="stat"><span class="stat-num" id="target">0</span><span class="stat-label">goal</span></div>
+        <div class="stat"><span class="stat-num" id="spent">$0</span><span class="stat-label">spent</span></div>
+      </div>
+
+      <div class="section-head">
+        <h2>Quick add</h2>
+        <button class="link" data-goto="eat">Browse all</button>
+      </div>
+      <div class="chips-scroll" id="quick"></div>
+
+      <div class="section-head" id="gap-head">
+        <h2 id="gap-title">Close the gap</h2>
+      </div>
+      <div class="cards-scroll" id="gap"></div>
+
+      <div class="section-head">
+        <h2>Today's meals</h2>
+      </div>
+      <ul class="log" id="log"></ul>
+      <div class="empty" id="log-empty">
+        <p>No meals yet today.</p>
+        <button class="btn" data-goto="eat">Find something to eat</button>
       </div>
     </section>
 
-    <section class="card">
-      <h2>Daily target</h2>
-      <form id="target-form" class="row">
-        <label>Body weight (lb)
-          <input type="number" id="weight" min="50" max="600" inputmode="decimal">
+    <!-- EAT -->
+    <section class="view" id="view-eat" data-title="Eat near ASU" hidden>
+      <div class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.96 12.05l4.25 4.24-1.42 1.42-4.24-4.25A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/></svg>
+        <input type="search" id="search" placeholder="Search Cane's, chicken bowl…" autocomplete="off">
+      </div>
+      <div class="chips-scroll" id="filters"></div>
+      <div class="sort" role="tablist" id="sort">
+        <button role="tab" data-sort="value" aria-selected="true">Best g per $</button>
+        <button role="tab" data-sort="protein">Most protein</button>
+        <button role="tab" data-sort="price">Cheapest</button>
+        <button role="tab" data-sort="places">Places</button>
+      </div>
+      <div id="results"></div>
+      <p class="fineprint">Protein and prices are estimates. DoorDash and Grubhub don't publish nutrition, chain numbers follow each chain's published nutrition for a standard build, and prices are typical app prices before fees and tip.</p>
+    </section>
+
+    <!-- HISTORY -->
+    <section class="view" id="view-history" data-title="History" hidden>
+      <div class="card">
+        <div class="week-nav">
+          <button class="icon-btn" id="week-prev" aria-label="Previous week">‹</button>
+          <span id="week-label"></span>
+          <button class="icon-btn" id="week-next" aria-label="Next week">›</button>
+        </div>
+        <div class="chart" id="chart"></div>
+        <div class="tip" id="chart-tip" hidden></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="stat-num" id="wk-avg">0</span><span class="stat-label">avg g/day</span></div>
+        <div class="stat"><span class="stat-num" id="wk-hit">0/7</span><span class="stat-label">goals hit</span></div>
+        <div class="stat"><span class="stat-num" id="wk-spent">$0</span><span class="stat-label">spent</span></div>
+      </div>
+      <div class="section-head"><h2>Top spots this week</h2></div>
+      <ul class="log" id="wk-top"></ul>
+      <p class="empty small" id="wk-empty">Nothing logged this week.</p>
+    </section>
+
+    <!-- ME -->
+    <section class="view" id="view-me" data-title="Your goal" hidden>
+      <form class="card form" id="goal-form">
+        <label>Body weight
+          <span class="input-suffix"><input type="number" id="weight" min="60" max="600" inputmode="decimal" placeholder="170"><span>lb</span></span>
         </label>
-        <label>Goal
-          <select id="factor">
-            <option value="0.7">Maintain (0.7 g/lb)</option>
-            <option value="0.8">Active (0.8 g/lb)</option>
-            <option value="1">Build muscle (1.0 g/lb)</option>
-          </select>
+        <fieldset>
+          <legend>Goal</legend>
+          <div class="seg" id="factor">
+            <label><input type="radio" name="factor" value="0.7"><span>Maintain<small>0.7 g/lb</small></span></label>
+            <label><input type="radio" name="factor" value="0.8" checked><span>Active<small>0.8 g/lb</small></span></label>
+            <label><input type="radio" name="factor" value="1"><span>Build<small>1.0 g/lb</small></span></label>
+          </div>
+        </fieldset>
+        <label>Or set grams yourself
+          <span class="input-suffix"><input type="number" id="manual" min="10" max="500" inputmode="numeric" placeholder="auto"><span>g</span></span>
         </label>
-        <label>Or set grams
-          <input type="number" id="manual" min="10" max="500" placeholder="auto">
-        </label>
-        <button type="submit">Save</button>
+        <p class="goal-preview">Daily goal: <strong id="goal-preview">0 g</strong></p>
+        <button class="btn block" type="submit">Save goal</button>
       </form>
-    </section>
 
-    <section class="card">
-      <h2>Add a meal</h2>
-      <div class="row">
-        <label class="grow">Search restaurants &amp; items
-          <input type="search" id="search" placeholder="e.g. chicken bowl, Cane's">
-        </label>
-      </div>
-      <div id="menu" class="menu"></div>
-      <p class="note">Protein values are estimates based on published chain nutrition and typical portions. DoorDash and Grubhub don't publish menu nutrition, and your order's customizations will change the real number.</p>
-
-      <details>
-        <summary>Add something else</summary>
-        <form id="custom-form" class="row">
-          <label class="grow">What did you eat?
-            <input type="text" id="custom-name" required maxlength="80">
-          </label>
-          <label>Protein (g)
-            <input type="number" id="custom-protein" required min="0" max="300">
-          </label>
-          <button type="submit">Add</button>
+      <div class="card form">
+        <h2>Add something else</h2>
+        <form id="custom-form" class="custom">
+          <input type="text" id="custom-name" placeholder="e.g. Protein shake" required maxlength="80">
+          <span class="input-suffix"><input type="number" id="custom-protein" placeholder="30" required min="0" max="300" inputmode="numeric"><span>g</span></span>
+          <span class="input-suffix"><span>$</span><input type="number" id="custom-price" placeholder="0" min="0" max="500" step="0.01" inputmode="decimal"></span>
+          <button class="btn" type="submit">Add</button>
         </form>
-      </details>
-    </section>
+      </div>
 
-    <section class="card" id="suggest-card">
-      <h2>Picks that would close the gap</h2>
-      <ul id="suggest" class="list"></ul>
-    </section>
+      <div class="card">
+        <h2>Install</h2>
+        <p class="muted" id="install-hint">On iPhone, tap Share then "Add to Home Screen". On Android, use the browser menu's "Install app".</p>
+        <button class="btn block" id="install-btn" hidden>Install app</button>
+      </div>
 
-    <section class="card">
-      <h2>Today's log</h2>
-      <ul id="log" class="list"></ul>
-      <p id="log-empty" class="muted">Nothing logged yet today.</p>
+      <div class="card">
+        <h2>Your data</h2>
+        <p class="muted">Everything stays on this phone. Nothing is sent anywhere.</p>
+        <button class="btn ghost block" id="reset-btn">Clear all data</button>
+      </div>
     </section>
+  </div>
 
-    <section class="card">
-      <h2>Last 7 days</h2>
-      <div id="history" class="history"></div>
-    </section>
-  </main>
+  <nav class="tabbar" id="tabbar">
+    <button data-tab="today" aria-current="page"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm0 2a8 8 0 1 0 8 8h-8V4Z"/></svg>Today</button>
+    <button data-tab="eat"><svg viewBox="0 0 24 24"><path d="M6 7h12l1.2 14H4.8L6 7Zm3 0a3 3 0 0 1 6 0h-2a1 1 0 0 0-2 0H9Z"/></svg>Eat</button>
+    <button data-tab="history"><svg viewBox="0 0 24 24"><path d="M4 20h16v2H2V2h2v18Zm3-2V10h3v8H7Zm5 0V5h3v13h-3Zm5 0v-6h3v6h-3Z"/></svg>History</button>
+    <button data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 12c4.42 0 8 2.24 8 5v3H4v-3c0-2.76 3.58-5 8-5Z"/></svg>Goal</button>
+  </nav>
 
-  <footer class="muted">Data is saved only in this browser. Not affiliated with DoorDash, Grubhub, or any restaurant.</footer>
+  <!-- Item sheet -->
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+    <div class="grabber"></div>
+    <p class="eyebrow" id="sheet-place"></p>
+    <h2 id="sheet-title"></h2>
+    <p class="muted" id="sheet-desc"></p>
+    <div class="sheet-stats">
+      <div><span id="sheet-protein"></span><small>protein</small></div>
+      <div><span id="sheet-price"></span><small>est. price</small></div>
+      <div><span id="sheet-value"></span><small>g per $</small></div>
+    </div>
+    <p class="sheet-impact" id="sheet-impact"></p>
+    <div class="qty">
+      <span>Servings</span>
+      <div class="stepper">
+        <button type="button" id="qty-minus" aria-label="Less">−</button>
+        <output id="qty">1</output>
+        <button type="button" id="qty-plus" aria-label="More">+</button>
+      </div>
+    </div>
+    <div class="sheet-actions">
+      <button class="icon-btn fav" id="sheet-fav" aria-pressed="false" aria-label="Favorite">♡</button>
+      <button class="btn block" id="sheet-add">Log it</button>
+    </div>
+  </div>
+
+  <!-- Onboarding -->
+  <div class="sheet" id="onboard" role="dialog" aria-modal="true" aria-labelledby="onboard-title" hidden>
+    <div class="onboard-art">🔱</div>
+    <h2 id="onboard-title">How much protein do you need?</h2>
+    <p class="muted">Enter your weight and we'll set a daily goal. You can change it anytime.</p>
+    <form id="onboard-form" class="form">
+      <span class="input-suffix big"><input type="number" id="ob-weight" min="60" max="600" inputmode="decimal" placeholder="170" required><span>lb</span></span>
+      <div class="seg" id="ob-factor">
+        <label><input type="radio" name="ob-factor" value="0.7"><span>Maintain</span></label>
+        <label><input type="radio" name="ob-factor" value="0.8" checked><span>Active</span></label>
+        <label><input type="radio" name="ob-factor" value="1"><span>Build</span></label>
+      </div>
+      <button class="btn block" type="submit">Start tracking</button>
+      <button class="link" type="button" id="ob-skip">Skip, use 120 g</button>
+    </form>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden><span id="toast-msg"></span><button id="toast-undo">Undo</button></div>
 
   <script src="data.js"></script>
   <script src="app.js"></script>

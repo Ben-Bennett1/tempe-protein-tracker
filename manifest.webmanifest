@@ -1,0 +1,21 @@
+{
+  "name": "Protein Devil: Tempe Protein Tracker",
+  "short_name": "Protein Devil",
+  "description": "Track how much more protein you need today when ordering DoorDash and Grubhub near ASU.",
+  "start_url": "./#today",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f1ee",
+  "theme_color": "#8c1d40",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "shortcuts": [
+    { "name": "Find food", "url": "./#eat" },
+    { "name": "History", "url": "./#history" }
+  ]
+}

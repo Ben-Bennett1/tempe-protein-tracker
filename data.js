@@ -5,6 +5,8 @@
 //            build; local spots are estimated from typical portions.
 //   price:   rough delivery-app menu price in USD before fees and tip (apps
 //            usually list items above in-store prices, and it varies by store).
+// campus: true marks ASU dining locations (ordered through Grubhub on campus).
+// apps lists where the restaurant has been seen for delivery or pickup.
 // Edit freely; ids must stay unique because logs and favorites reference them.
 window.RESTAURANTS = [
   {
@@ -30,7 +32,7 @@ window.RESTAURANTS = [
     ],
   },
   {
-    id: "cfa", name: "Chick-fil-A", area: "Apache Blvd", color: "#dd0031", emoji: "🐔",
+    id: "cfa", name: "Chick-fil-A", area: "Memorial Union", campus: true, apps: ["Grubhub"], color: "#dd0031", emoji: "🐔",
     items: [
       { id: "cfa-sandwich", name: "Chicken Sandwich", desc: "Classic, pickles", protein: 29, price: 6.5, tags: ["chicken", "sandwich"] },
       { id: "cfa-spicy", name: "Spicy Chicken Sandwich", desc: "Pepper jack optional", protein: 28, price: 6.9, tags: ["chicken", "sandwich"] },
@@ -43,7 +45,7 @@ window.RESTAURANTS = [
     ],
   },
   {
-    id: "panda", name: "Panda Express", area: "Memorial Union", color: "#d02630", emoji: "🥡",
+    id: "panda", name: "Panda Express", area: "Memorial Union", campus: true, color: "#d02630", emoji: "🥡",
     items: [
       { id: "panda-teri-bowl", name: "Bowl: Teriyaki Chicken", desc: "With chow mein", protein: 45, price: 11.4, tags: ["bowl", "chicken"] },
       { id: "panda-orange-bowl", name: "Bowl: Orange Chicken", desc: "With fried rice", protein: 36, price: 11.4, tags: ["bowl", "chicken"] },
@@ -104,7 +106,7 @@ window.RESTAURANTS = [
     ],
   },
   {
-    id: "tacobell", name: "Taco Bell", area: "Apache Blvd", color: "#702082", emoji: "🌮",
+    id: "tacobell", name: "Taco Bell", area: "0.2 mi from Rural Rd", apps: ["DoorDash"], color: "#702082", emoji: "🌮",
     items: [
       { id: "tb-cantina", name: "Cantina Chicken Bowl", desc: "Chicken, rice, beans", protein: 25, price: 8.9, tags: ["bowl", "chicken"] },
       { id: "tb-quesadilla", name: "Chicken Quesadilla", desc: "Three cheese", protein: 27, price: 6.9, tags: ["chicken"] },
@@ -138,12 +140,131 @@ window.RESTAURANTS = [
     ],
   },
   {
-    id: "starbucks", name: "Starbucks", area: "Mill Ave · campus", color: "#00704a", emoji: "☕",
+    id: "starbucks", name: "Starbucks", area: "Palo Verde", campus: true, apps: ["Grubhub"], color: "#00704a", emoji: "☕",
     items: [
       { id: "sb-eggbites", name: "Bacon & Gruyère Egg Bites", desc: "2 pieces", protein: 19, price: 6.5, tags: ["breakfast"] },
       { id: "sb-proteinbox", name: "Eggs & Cheddar Protein Box", desc: "Eggs, cheese, fruit", protein: 22, price: 7.2, tags: ["breakfast"] },
       { id: "sb-tbsandwich", name: "Turkey Bacon Egg White Sandwich", desc: "Breakfast", protein: 17, price: 6.1, tags: ["breakfast", "lean"] },
       { id: "sb-latte", name: "Grande latte", desc: "2% milk", protein: 13, price: 6.2, tags: ["drink"] },
+    ],
+  },
+  // ---- ASU Tempe campus dining (Grubhub) ----
+  {
+    id: "qdoba", name: "Qdoba", area: "Memorial Union", campus: true, apps: ["Grubhub"], color: "#7a2531", emoji: "🌯",
+    items: [
+      { id: "qd-chx-bowl", name: "Chicken burrito bowl", desc: "Rice, black beans, cheese, salsa", protein: 42, price: 11.5, tags: ["bowl", "chicken"] },
+      { id: "qd-dbl-chx-bowl", name: "Double chicken bowl", desc: "Rice, black beans, cheese, salsa", protein: 68, price: 15.0, tags: ["bowl", "chicken"] },
+      { id: "qd-steak-burrito", name: "Steak burrito", desc: "Rice, beans, cheese, salsa", protein: 45, price: 13.0, tags: ["beef"] },
+      { id: "qd-chx-tacos", name: "3 chicken tacos", desc: "Corn or flour", protein: 30, price: 10.5, tags: ["chicken"] },
+    ],
+  },
+  {
+    id: "choolaah", name: "Choolaah", area: "Memorial Union", campus: true, apps: ["Grubhub"], color: "#e2a400", emoji: "🍛",
+    items: [
+      { id: "ch-tikka-bowl", name: "Chicken tikka bowl", desc: "Basmati, chickpeas, sauce", protein: 40, price: 13.5, tags: ["bowl", "chicken"] },
+      { id: "ch-salmon-bowl", name: "Salmon tikka bowl", desc: "Basmati, veggies", protein: 34, price: 15.5, tags: ["bowl", "lean"] },
+      { id: "ch-paneer-bowl", name: "Paneer tikka bowl", desc: "Basmati, chickpeas", protein: 26, price: 12.5, tags: ["bowl", "veg"] },
+      { id: "ch-naan-wrap", name: "Chicken naan wrap", desc: "Naan, chicken tikka", protein: 32, price: 11.5, tags: ["chicken", "sandwich"] },
+    ],
+  },
+  {
+    id: "tlc", name: "Tenders, Love & Chicken", area: "Tooker House", campus: true, apps: ["Grubhub"], color: "#d4571b", emoji: "🍗",
+    items: [
+      { id: "tlc-3", name: "3 tender meal", desc: "Fries, sauce", protein: 36, price: 11.0, tags: ["chicken"] },
+      { id: "tlc-5", name: "5 tender meal", desc: "Fries, sauce", protein: 58, price: 14.5, tags: ["chicken"] },
+      { id: "tlc-sandwich", name: "Chicken tender sandwich", desc: "Pickles, sauce", protein: 32, price: 10.5, tags: ["chicken", "sandwich"] },
+    ],
+  },
+  {
+    id: "subway-hassy", name: "Subway", area: "Hassayampa", campus: true, apps: ["Grubhub"], color: "#008938", emoji: "🥪",
+    items: [
+      { id: "sw-rot-ft", name: "Rotisserie-style chicken footlong", desc: "Footlong", protein: 46, price: 12.5, tags: ["chicken", "sandwich"] },
+      { id: "sw-steak-ft", name: "Steak & cheese footlong", desc: "Footlong", protein: 46, price: 13.0, tags: ["beef", "sandwich"] },
+      { id: "sw-turkey-6", name: "Oven roasted turkey, 6 inch", desc: "6 inch", protein: 20, price: 7.5, tags: ["sandwich", "lean"] },
+      { id: "sw-chx-bowl", name: "Chicken protein bowl", desc: "No bread, double chicken", protein: 45, price: 11.5, tags: ["bowl", "chicken", "lean"] },
+    ],
+  },
+  {
+    id: "einstein", name: "Einstein Bros. Bagels", area: "Memorial Union", campus: true, apps: ["Grubhub"], color: "#5a2d0c", emoji: "🥯",
+    items: [
+      { id: "eb-bec", name: "Bacon, egg & cheese bagel", desc: "Breakfast", protein: 27, price: 8.0, tags: ["breakfast"] },
+      { id: "eb-turkey-sausage", name: "Turkey sausage egg white sandwich", desc: "Thintastic bagel", protein: 28, price: 8.5, tags: ["breakfast", "lean"] },
+      { id: "eb-bagel-cc", name: "Plain bagel with cream cheese", desc: "Bagel", protein: 12, price: 4.5, tags: ["breakfast"] },
+    ],
+  },
+  {
+    id: "burningb", name: "Burning B Café", area: "Barrett", campus: true, apps: ["Grubhub"], color: "#8c1d40", emoji: "☕",
+    items: [
+      { id: "bb-burrito", name: "Breakfast burrito", desc: "Egg, cheese, potato, meat", protein: 22, price: 8.0, tags: ["breakfast"] },
+      { id: "bb-latte", name: "Latte", desc: "16 oz, 2% milk", protein: 12, price: 5.5, tags: ["drink"] },
+    ],
+  },
+  {
+    id: "rosies", name: "Rosie's Bakery", area: "Memorial Union", campus: true, apps: ["Grubhub"], color: "#c06c84", emoji: "🍞",
+    items: [
+      { id: "rb-egg-sandwich", name: "Egg & cheese croissant", desc: "Breakfast", protein: 15, price: 6.5, tags: ["breakfast"] },
+      { id: "rb-banana-bread", name: "Chocolate chip banana bread", desc: "One slice", protein: 5, price: 4.0, tags: ["breakfast"] },
+    ],
+  },
+
+  // ---- Seen on DoorDash near Rural Rd ----
+  {
+    id: "mcdonalds", name: "McDonald's", area: "2.4 mi", apps: ["DoorDash"], color: "#da291c", emoji: "🍔",
+    items: [
+      { id: "mc-dqp", name: "Double Quarter Pounder with Cheese", desc: "Sandwich", protein: 48, price: 10.5, tags: ["beef", "burger"] },
+      { id: "mc-qp", name: "Quarter Pounder with Cheese", desc: "Sandwich", protein: 30, price: 8.0, tags: ["beef", "burger"] },
+      { id: "mc-mcdouble", name: "McDouble", desc: "Sandwich", protein: 22, price: 4.5, tags: ["beef", "burger"] },
+      { id: "mc-nug10", name: "Chicken McNuggets, 10 pc", desc: "Nuggets", protein: 23, price: 7.5, tags: ["chicken"] },
+      { id: "mc-mcmuffin", name: "Egg McMuffin", desc: "Breakfast", protein: 17, price: 5.5, tags: ["breakfast"] },
+    ],
+  },
+  {
+    id: "burgerking", name: "Burger King", area: "4.1 mi", apps: ["DoorDash"], color: "#d62300", emoji: "👑",
+    items: [
+      { id: "bk-dbl-whopper", name: "Double Whopper", desc: "Sandwich", protein: 48, price: 11.0, tags: ["beef", "burger"] },
+      { id: "bk-whopper", name: "Whopper", desc: "Sandwich", protein: 31, price: 8.5, tags: ["beef", "burger"] },
+      { id: "bk-chx", name: "Original Chicken Sandwich", desc: "Sandwich", protein: 28, price: 7.5, tags: ["chicken", "sandwich"] },
+    ],
+  },
+  {
+    id: "jackinthebox", name: "Jack in the Box", area: "0.4 mi", apps: ["DoorDash"], color: "#e31837", emoji: "🍟",
+    items: [
+      { id: "jb-ultimate", name: "Ultimate Cheeseburger", desc: "Two patties", protein: 48, price: 9.5, tags: ["beef", "burger"] },
+      { id: "jb-sourdough", name: "Sourdough Jack", desc: "Sandwich", protein: 33, price: 8.5, tags: ["beef", "burger"] },
+      { id: "jb-teriyaki", name: "Chicken Teriyaki Bowl", desc: "Rice, veggies", protein: 26, price: 8.0, tags: ["bowl", "chicken"] },
+      { id: "jb-tacos", name: "2 tacos", desc: "Classic", protein: 12, price: 3.0, tags: ["beef"] },
+    ],
+  },
+
+  // ---- Seen on Uber Eats near Rural Rd ----
+  {
+    id: "burgerden", name: "The Burger Den", area: "27 min", apps: ["Uber Eats"], color: "#6b3e1e", emoji: "🍔",
+    items: [
+      { id: "bd-double", name: "Double cheeseburger", desc: "Two patties", protein: 45, price: 13.0, tags: ["beef", "burger"] },
+      { id: "bd-single", name: "Cheeseburger", desc: "One patty", protein: 28, price: 10.0, tags: ["beef", "burger"] },
+    ],
+  },
+  {
+    id: "deltaco", name: "Del Taco", area: "19 min", apps: ["Uber Eats"], color: "#00863f", emoji: "🌮",
+    items: [
+      { id: "dt-epic-chx", name: "Grilled chicken burrito", desc: "Burrito", protein: 24, price: 7.5, tags: ["chicken"] },
+      { id: "dt-quesadilla", name: "Chicken quesadilla", desc: "Cheese, chicken", protein: 28, price: 7.0, tags: ["chicken"] },
+      { id: "dt-macho", name: "Macho beef burrito", desc: "Large burrito", protein: 40, price: 9.0, tags: ["beef"] },
+    ],
+  },
+  {
+    id: "obregon", name: "Taqueria Obregon", area: "Mesa · 49 min", apps: ["Uber Eats"], color: "#b5121b", emoji: "🌮",
+    items: [
+      { id: "to-asada-burrito", name: "Carne asada burrito", desc: "Asada, beans, cheese", protein: 40, price: 13.0, tags: ["beef"] },
+      { id: "to-asada-tacos", name: "3 carne asada tacos", desc: "Corn tortillas", protein: 30, price: 11.0, tags: ["beef"] },
+      { id: "to-asada-plate", name: "Carne asada plate", desc: "Rice, beans, tortillas", protein: 50, price: 16.0, tags: ["beef"] },
+    ],
+  },
+  {
+    id: "ricks", name: "Rick's Fish & Chips", area: "49 min", apps: ["Uber Eats"], color: "#1f5aa6", emoji: "🐟",
+    items: [
+      { id: "rf-3pc", name: "Fish & chips, 3 pc", desc: "Fries", protein: 40, price: 16.0, tags: [] },
+      { id: "rf-2pc", name: "Fish & chips, 2 pc", desc: "Fries", protein: 28, price: 12.5, tags: [] },
     ],
   },
 ];

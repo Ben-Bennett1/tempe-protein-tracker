@@ -9,7 +9,7 @@
   const ITEMS = [];
   const BY_ID = {};
   window.RESTAURANTS.forEach((r) => r.items.forEach((i) => {
-    const full = Object.assign({}, i, { place: r.name, placeId: r.id, emoji: r.emoji, color: r.color, value: i.protein / i.price });
+    const full = Object.assign({}, i, { place: r.name, placeId: r.id, emoji: r.emoji, color: r.color, campus: !!r.campus, apps: r.apps || [], value: i.protein / i.price });
     ITEMS.push(full);
     BY_ID[i.id] = full;
   }));
@@ -219,6 +219,9 @@
     { id: "all", label: "All", test: () => true },
     { id: "fav", label: "★ Favorites", test: (i) => isFav(i.id) },
     { id: "closes", label: "Finishes my goal", test: (i) => i.protein >= Math.max(1, goal() - sum(entries(today()), "protein")) },
+    { id: "campus", label: "🎓 On campus", test: (i) => i.campus },
+    { id: "doordash", label: "DoorDash", test: (i) => i.apps.includes("DoorDash") },
+    { id: "ubereats", label: "Uber Eats", test: (i) => i.apps.includes("Uber Eats") },
     { id: "chicken", label: "🍗 Chicken", test: (i) => i.tags.includes("chicken") },
     { id: "beef", label: "🥩 Beef", test: (i) => i.tags.includes("beef") },
     { id: "bowl", label: "🥗 Bowls", test: (i) => i.tags.includes("bowl") || i.tags.includes("salad") },
@@ -259,7 +262,7 @@
   function renderResults() {
     const q = $("search").value.trim().toLowerCase();
     const f = FILTERS.find((x) => x.id === filter);
-    const match = ITEMS.filter((i) => f.test(i) && (!q || (i.name + " " + i.place + " " + i.desc + " " + i.tags.join(" ")).toLowerCase().includes(q)));
+    const match = ITEMS.filter((i) => f.test(i) && (!q || (i.name + " " + i.place + " " + i.desc + " " + i.tags.join(" ") + " " + i.apps.join(" ") + (i.campus ? " campus asu" : "")).toLowerCase().includes(q)));
     const box = $("results");
     box.replaceChildren();
     box.className = sortMode === "places" ? "" : "results-flat";
@@ -271,11 +274,11 @@
       return;
     }
     if (sortMode === "places") {
-      window.RESTAURANTS.forEach((r) => {
+      window.RESTAURANTS.slice().sort((a, b) => (b.campus ? 1 : 0) - (a.campus ? 1 : 0)).forEach((r) => {
         const items = match.filter((i) => i.placeId === r.id);
         if (!items.length) return;
         box.appendChild(el("div", { class: "card place" }, [
-          el("div", { class: "place-head" }, [badge(r.emoji, r.color), el("div", {}, [el("h3", { text: r.name }), el("p", { text: r.area })])]),
+          el("div", { class: "place-head" }, [badge(r.emoji, r.color), el("div", {}, [el("h3", { text: r.name }), el("p", { text: [r.campus ? "ASU campus · " + r.area : r.area].concat(r.apps || []).join(" · ") })])]),
           el("div", { class: "items" }, items.map((i) => itemRow(i, false))),
         ]));
       });

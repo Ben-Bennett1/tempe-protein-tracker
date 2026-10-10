@@ -1,7 +1,7 @@
 {
   "name": "Protein Devil: Tempe Protein Tracker",
   "short_name": "Protein Devil",
-  "description": "Track how much more protein you need today when ordering DoorDash and Grubhub near ASU.",
+  "description": "Track how much more protein you need today when ordering DoorDash, Uber Eats and Grubhub near ASU.",
   "start_url": "./#today",
   "scope": "./",
   "display": "standalone",

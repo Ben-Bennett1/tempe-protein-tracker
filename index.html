@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tempe Protein Tracker</title>
+  <meta name="description" content="See how much more protein you need today when eating DoorDash and Grubhub food near ASU in Tempe.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Tempe Protein Tracker</h1>
+    <p class="sub">DoorDash &amp; Grubhub spots near ASU</p>
+  </header>
+
+  <main>
+    <section class="card summary" aria-live="polite">
+      <div class="ring" id="ring"><span id="ring-pct">0%</span></div>
+      <div>
+        <p class="big"><span id="remaining">0</span> g to go</p>
+        <p class="muted"><span id="eaten">0</span> g eaten of <span id="target">0</span> g target today</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Daily target</h2>
+      <form id="target-form" class="row">
+        <label>Body weight (lb)
+          <input type="number" id="weight" min="50" max="600" inputmode="decimal">
+        </label>
+        <label>Goal
+          <select id="factor">
+            <option value="0.7">Maintain (0.7 g/lb)</option>
+            <option value="0.8">Active (0.8 g/lb)</option>
+            <option value="1">Build muscle (1.0 g/lb)</option>
+          </select>
+        </label>
+        <label>Or set grams
+          <input type="number" id="manual" min="10" max="500" placeholder="auto">
+        </label>
+        <button type="submit">Save</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Add a meal</h2>
+      <div class="row">
+        <label class="grow">Search restaurants &amp; items
+          <input type="search" id="search" placeholder="e.g. chicken bowl, Cane's">
+        </label>
+      </div>
+      <div id="menu" class="menu"></div>
+      <p class="note">Protein values are estimates based on published chain nutrition and typical portions. DoorDash and Grubhub don't publish menu nutrition, and your order's customizations will change the real number.</p>
+
+      <details>
+        <summary>Add something else</summary>
+        <form id="custom-form" class="row">
+          <label class="grow">What did you eat?
+            <input type="text" id="custom-name" required maxlength="80">
+          </label>
+          <label>Protein (g)
+            <input type="number" id="custom-protein" required min="0" max="300">
+          </label>
+          <button type="submit">Add</button>
+        </form>
+      </details>
+    </section>
+
+    <section class="card" id="suggest-card">
+      <h2>Picks that would close the gap</h2>
+      <ul id="suggest" class="list"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Today's log</h2>
+      <ul id="log" class="list"></ul>
+      <p id="log-empty" class="muted">Nothing logged yet today.</p>
+    </section>
+
+    <section class="card">
+      <h2>Last 7 days</h2>
+      <div id="history" class="history"></div>
+    </section>
+  </main>
+
+  <footer class="muted">Data is saved only in this browser. Not affiliated with DoorDash, Grubhub, or any restaurant.</footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
